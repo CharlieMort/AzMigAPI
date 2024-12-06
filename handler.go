@@ -23,8 +23,11 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 func getKeys(w http.ResponseWriter, r *http.Request) {
 	keyVaultName := "testbuzzkvmigrate"
 	keyVaultUrl := fmt.Sprintf("https://%s.vault.azure.net/", keyVaultName)
+
 	// create credential
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	clientID := azidentity.ObjectID("6ed3318c-302f-40ce-a3f6-78753981f225")
+	opts := azidentity.ManagedIdentityCredentialOptions{ID: clientID}
+	cred, err := azidentity.NewManagedIdentityCredential(&opts)
 	if err != nil {
 		log.Fatal(err)
 	}
